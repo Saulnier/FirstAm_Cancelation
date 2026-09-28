@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>First American – Cancellation Request</title>
+<style>
+  :root {
+    --primary: #002B5C;
+    --primary-dark: #001A3A;
+    --primary-mid: #1A4A7A;
+    --accent: #C8102E;
+    --accent-light: #FDEAED;
+    --bg: #F4F5F7;
+    --card-bg: #ffffff;
+    --text-main: #1A1A2E;
+    --text-muted: #6B7280;
+    --radius: 12px;
+    --shadow: 0 4px 14px rgba(0,0,0,0.08);
+    --success: #1A6B3A;
+    --success-light: #E6F4EC;
+    --warning: #B45309;
+    --warning-light: #FEF3C7;
+    --danger: #C8102E;
+    --danger-light: #FDEAED;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text-main);
+    padding: 20px 16px;
+    line-height: 1.5;
+  }
+
+  .container { max-width: 900px; margin: auto; }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 22px 28px;
+    border-radius: var(--radius);
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .header-logo {
+    background: white;
+    border-radius: 10px;
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+  .header-text h1 { font-size: 1.25rem; font-weight: 700; }
+  .header-text p  { font-size: 0.82rem; opacity: 0.8; margin-top: 2px; }
+
+  /* CARDS */
+  .card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+  }
+  .card-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+  }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  @media (max-width: 640px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  /* FIELDS */
+  .field label {
+    display: block;
+    font-size: 0.73rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+  }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1.5px solid #D1D5DB;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    background: white;
+    outline: none;
+    transition: border-color 0.15s;
+    font-family: inherit;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--primary);
+  }
+  .field textarea { resize: vertical; min-height: 80px; }
+
+  /* STATUS BADGE */
+  .status-row { display: flex; align-items: center; gap: 10px; }
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+  }
+  .badge-active   { background: #DCFCE7; color: #166534; }
+  .badge-pending  { background: #FEF3C7; color: #92400E; }
+  .badge-inactive { background: #FEE2E2; color: #991B1B; }
+
+  /* REASON PILLS */
+  .reason-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .reason-pill {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1.5px solid #D1D5DB;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    background: white;
+    color: var(--text-main);
+    transition: all 0.15s;
+  }
+  .reason-pill:hover { border-color: var(--primary); color: var(--primary); }
+  .reason-pill.selected {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+  }
+
+  /* CANCEL ALERT */
+  .cancel-alert {
+    background: var(--accent-light);
+    border: 1.5px solid var(--accent);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 0.84rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* SUBMIT BUTTON */
+  .btn-cancel {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--accent) 0%, #9B0C23 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: opacity 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .btn-cancel:hover { opacity: 0.9; }
+
+  /* SUCCESS BANNER */
+  .success-banner {
+    display: none;
+    background: var(--success-light);
+    border: 1.5px solid var(--success);
+    border-radius: 10px;
+    padding: 16px 20px;
+    color: var(--success);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: center;
+    margin-top: 12px;
+  }
+  .success-banner.show { display: block; }
+
+  /* PHI NOTE */
+  .phi-note {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-logo">🦅</div>
+    <div class="header-text">
+      <h1>First American – Cancellation Request</h1>
+      <p>Customer Solutions · Policy & Home Warranty Services</p>
+    </div>
+  </div>
+
+  <!-- CANCEL ALERT -->
+  <div class="cancel-alert">
+    ⚠️ Cancellation requests are final once submitted. Confirm all details with the customer before proceeding.
+  </div>
+
+  <!-- CUSTOMER INFO -->
+  <div class="card">
+    <div class="card-title">Customer Information</div>
+    <div class="grid-2" style="margin-bottom:14px;">
+      <div class="field">
+        <label>First Name</label>
+        <input type="text" id="firstName" placeholder="First name" />
+      </div>
+      <div class="field">
+        <label>Last Name</label>
+        <input type="text" id="lastName" placeholder="Last name" />
+      </div>
+    </div>
+    <div class="grid-2" style="margin-bottom:14px;">
+      <div class="field">
+        <label>Email</label>
+        <input type="text" id="email" placeholder="email@example.com" />
+      </div>
+      <div class="field">
+        <label>Phone</label>
+        <input type="text" id="phone" placeholder="(555) 555-5555" />
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Account / Order Number</label>
+        <input type="text" id="accountNumber" placeholder="e.g. FA-2024-00123" />
+      </div>
+      <div class="field" style="padding-top:4px;">
+        <label>Account Status</label>
+        <div class="status-row" style="margin-top:9px;">
+          <button class="status-badge badge-active" id="statusBadge" onclick="cycleStatus()">● Active</button>
+          <span style="font-size:0.75rem; color:var(--text-muted);">Click to change</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POLICY / SERVICE INFO -->
+  <div class="card">
+    <div class="card-title">Policy / Service Details</div>
+    <div class="grid-2" style="margin-bottom:14px;">
+      <div class="field">
+        <label>Property Address</label>
+        <input type="text" id="propertyAddress" placeholder="123 Main St, City, State ZIP" />
+      </div>
+      <div class="field">
+        <label>Product Type</label>
+        <select id="productType">
+          <option value="">Select product...</option>
+          <option>Home Warranty</option>
+          <option>Title Insurance</option>
+          <option>Home Protection Plan</option>
+          <option>Escrow Services</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="field">
+        <label>Policy / Contract Number</label>
+        <input type="text" id="policyNumber" placeholder="e.g. HW-2024-88812" />
+      </div>
+      <div class="field">
+        <label>Policy Start Date</label>
+        <input type="text" id="startDate" placeholder="MM/DD/YYYY" />
+      </div>
+      <div class="field">
+        <label>Requested Effective Date</label>
+        <input type="text" id="effectiveDate" placeholder="MM/DD/YYYY" />
+      </div>
+    </div>
+  </div>
+
+  <!-- CANCELLATION REASON -->
+  <div class="card">
+    <div class="card-title">Cancellation Reason</div>
+    <div class="reason-pills" id="reasonPills">
+      <button class="reason-pill" onclick="selectReason(this)">Sold Property</button>
+      <button class="reason-pill" onclick="selectReason(this)">Moving / Relocating</button>
+      <button class="reason-pill" onclick="selectReason(this)">Financial Hardship</button>
+      <button class="reason-pill" onclick="selectReason(this)">Duplicate Coverage</button>
+      <button class="reason-pill" onclick="selectReason(this)">Dissatisfied with Service</button>
+      <button class="reason-pill" onclick="selectReason(this)">Claim Denied</button>
+      <button class="reason-pill" onclick="selectReason(this)">Switching Providers</button>
+      <button class="reason-pill" onclick="selectReason(this)">Other</button>
+    </div>
+    <div class="field" style="margin-top:14px;">
+      <label>Additional Notes</label>
+      <textarea id="agentNotes" placeholder="Add any additional context or customer comments..."></textarea>
+    </div>
+  </div>
+
+  <!-- REFUND INFO -->
+  <div class="card">
+    <div class="card-title">Refund &amp; Billing</div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Refund Eligible</label>
+        <select id="refundEligible">
+          <option value="">Select...</option>
+          <option>Yes – Pro-rated refund</option>
+          <option>No – Outside refund window</option>
+          <option>Pending review</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Preferred Refund Method</label>
+        <select id="refundMethod">
+          <option value="">Select...</option>
+          <option>Original payment method</option>
+          <option>Check by mail</option>
+          <option>Account credit</option>
+        </select>
+      </div>
+    </div>
+    <p class="phi-note">⚠️ Do not disclose customer financial account details. Refund confirmation will be sent via email.</p>
+  </div>
+
+  <!-- SUBMIT -->
+  <button class="btn-cancel" onclick="submitCancellation()">
+    🚫 Submit Cancellation Request
+  </button>
+  <div class="success-banner" id="successBanner">
+    ✅ Cancellation request submitted. Confirmation will be sent to the customer's email on file.
+  </div>
+
+</div>
+
+<script>
+  const qp = new URLSearchParams(window.location.search);
+
+  function getQP(...keys) {
+    for (let k of keys) {
+      const v = qp.get(k);
+      if (v && v.trim() !== "") return v;
+    }
+    return "";
+  }
+
+  function cleanPhone(input = "") {
+    return input.replace(/[\[\]\(\)]/g, "").trim();
+  }
+
+  const defaults = {
+    firstName:  "Alex",
+    lastName:   "Johnson",
+    email:      "alex.johnson@email.com",
+    phone:      "",
+    accountNumber: "FA-2024-00123",
+    propertyAddress: "742 Evergreen Terrace, Springfield, IL 62701",
+    policyNumber: "HW-2024-88812",
+    startDate:  "01/15/2024",
+    effectiveDate: ""
+  };
+
+  function setField(id, val) {
+    const el = document.getElementById(id);
+    if (el) el.value = val;
+  }
+
+  setField("firstName",       getQP("firstName", "FNAME", "fname")             || defaults.firstName);
+  setField("lastName",        getQP("lastName",  "LNAME", "lname")             || defaults.lastName);
+  setField("email",           getQP("email",     "EMAIL", "email")             || defaults.email);
+  setField("phone",           cleanPhone(getQP("phone", "PHONE", "phone"))     || defaults.phone);
+  setField("accountNumber",   getQP("account",   "ACCOUNT", "accountNumber")   || defaults.accountNumber);
+  setField("propertyAddress", getQP("address",   "ADDRESS", "propertyAddress") || defaults.propertyAddress);
+  setField("policyNumber",    getQP("policy",    "POLICY")                     || defaults.policyNumber);
+  setField("startDate",       getQP("startDate", "START_DATE")                 || defaults.startDate);
+  setField("effectiveDate",   getQP("effectiveDate", "EFF_DATE")               || defaults.effectiveDate);
+
+  // Status badge cycle
+  const statuses = [
+    { label: "● Active",   cls: "badge-active" },
+    { label: "◑ Pending",  cls: "badge-pending" },
+    { label: "○ Inactive", cls: "badge-inactive" }
+  ];
+  let statusIdx = 0;
+
+  function cycleStatus() {
+    statusIdx = (statusIdx + 1) % statuses.length;
+    const badge = document.getElementById("statusBadge");
+    badge.className = "status-badge " + statuses[statusIdx].cls;
+    badge.textContent = statuses[statusIdx].label;
+  }
+
+  // Reason pills
+  function selectReason(el) {
+    document.querySelectorAll(".reason-pill").forEach(p => p.classList.remove("selected"));
+    el.classList.add("selected");
+  }
+
+  // Submit
+  function submitCancellation() {
+    document.getElementById("successBanner").classList.add("show");
+    document.querySelector(".btn-cancel").disabled = true;
+    document.querySelector(".btn-cancel").style.opacity = "0.6";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  }
+</script>
+</body>
+</html>
